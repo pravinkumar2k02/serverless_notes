@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const FILE_PATH = path.join(__dirname, '../../notes.json'); // Path to notes.json
+const FILE_PATH = path.join(__dirname, '../data/notes.json'); // Path to notes.json
 
 exports.handler = async function(event, context) {
   try {

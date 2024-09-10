@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
-const FILE_PATH = path.join(__dirname, '../../notes.json'); // Path to notes.json
+const FILE_PATH = path.join(__dirname, '../data/notes.json'); // Path to notes.json
 
 function generateKeyIV(userKey, iv = null) {
   const key = crypto.createHash('sha256').update(userKey).digest().slice(0, 32); // 256-bit key
