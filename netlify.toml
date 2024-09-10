@@ -1,0 +1,40 @@
+# Settings for the Netlify build process
+[build]
+  # Directory for the frontend build
+  publish = "build"
+  # Directory for Netlify functions
+  functions = "functions"
+
+# Settings for the React frontend build
+[[plugins]]
+  package = "netlify-plugin-inline-critical-css"  # Optional: Improves CSS loading performance
+
+[build.environment]
+  # React environment
+  NODE_VERSION = "18.3.1"
+  CI = "false"
+
+# Redirect all requests to index.html (for React Router to handle)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Configuration for the serverless functions
+[functions]
+  # Node.js version for the functions
+  node_bundler = "esbuild"        # You can also use "zisi" as default bundler
+
+# Custom headers for security
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Content-Security-Policy = "default-src 'self'"
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "no-referrer"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    Feature-Policy = "geolocation 'self'; camera 'none'; microphone 'none'"
+
+[[plugins]]
+  package = "netlify-plugin-react"
