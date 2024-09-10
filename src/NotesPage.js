@@ -115,51 +115,54 @@ const NotesPage = () => {
   return (
     <div className="notes-page" onClick={handleOutsideClick}>
       <style>{`
-        /* General NotesPage styling */
-        .notes-page { padding: 20px; }
-        .add-button { margin-bottom: 20px; }
-        .notes-container { display: flex; flex-wrap: wrap; }
+        .notes-page {
+          padding: 20px;
+        }
+        .add-button {
+          margin-bottom: 20px;
+          text-align: center;
+        }
+        .notes-container {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+        }
         .note-card {
           border: 1px solid #ddd;
           border-radius: 5px;
           padding: 10px;
-          margin: 10px;
-          width: 6.5cm;
-          height: 9cm;
+          width: 150px;
+          height: 200px;
           cursor: pointer;
-          transition: all 0.3s ease;
-          word-wrap: break-word;
+          transition: background-color 0.3s ease;
+          background-color: #fff;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
           box-sizing: border-box;
+        }
+        .note-card:hover {
+          background-color: #f9f9f9;
+        }
+        .note-card h3, .note-card p {
+          margin: 0;
           overflow: hidden;
-          display: block;
-          margin-left: auto;
-          margin-right: auto;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
-        @media only screen and (max-width: 600px) {
-          .note-card {
-            width: 100%;
-            height: 4.5cm;
-            padding: 8px;
-            margin: 8px;
-          }
-        }
-        .note-card h3, .note-card p { margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: pre; }
-        .add-icon { cursor: pointer; }
         .note-card input, .note-card textarea {
           border: none;
           outline: none;
           background-color: transparent;
-          resize: none;
+          width: 100%;
           font-family: inherit;
           font-size: inherit;
-          width: 100%;
           color: #333;
-          word-wrap: break-word;
         }
-        .note-card textarea { min-height: 50px; overflow: auto; }
+        .note-card textarea {
+          min-height: 60px;
+        }
         .context-menu {
           position: absolute;
-          background-color: white;
+          background-color: #fff;
           border: 1px solid #ddd;
           box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
           padding: 10px;
@@ -168,21 +171,24 @@ const NotesPage = () => {
         .context-menu button {
           display: block;
           width: 100%;
-          padding: 5px 10px;
+          padding: 5px;
           background-color: transparent;
           border: none;
           cursor: pointer;
+          text-align: left;
         }
-        .context-menu button:hover { background-color: #f0f0f0; }
-        .encrypt-section { margin-top: 0px; float: right; }
+        .context-menu button:hover {
+          background-color: #f0f0f0;
+        }
+        .encrypt-section {
+          margin-top: 20px;
+          text-align: center;
+        }
         .encrypt-section input {
           margin-right: 10px;
-          border: none;
-          outline: none;
-          width: 133px;
           padding: 5px;
-          border-bottom: 1px solid #ddd;
-          font-size: 20px;
+          border: 1px solid #ddd;
+          border-radius: 5px;
         }
         .full-screen-note {
           position: fixed;
@@ -191,8 +197,7 @@ const NotesPage = () => {
           width: 100vw;
           height: 100vh;
           background-color: rgba(0, 0, 0, 0.8);
-          background-color: white;
-          color: white;
+          color: #fff;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -200,64 +205,46 @@ const NotesPage = () => {
           z-index: 1000;
         }
         .full-screen-note .note-card {
-          position: absolute;
-          top: 60px;
-          left: 20px;
-          width: calc(100% - 40px);
-          height: calc(100vh - 80px);
-          margin: 0;
-          box-sizing: border-box;
+          width: 80vw;
+          height: 80vh;
+          background-color: #fff;
+          color: #000;
+          padding: 20px;
           overflow: auto;
-          background-color: white;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
         .full-screen-note textarea {
-          width: 100%;
-          height: 100%;
+          width: calc(100% - 20px);
+          height: calc(100% - 60px);
           box-sizing: border-box;
-          overflow: auto;
-          border: none;
           resize: none;
           padding: 10px;
           font-size: 16px;
-          outline: none;
+        }
+        .save-button, .back-button {
+          position: absolute;
+          padding: 10px 20px;
+          border: none;
+          border-radius: 5px;
+          color: #fff;
+          cursor: pointer;
         }
         .save-button {
-          margin-top: 10px;
-          position: absolute;
-          border-radius: 5px;
           bottom: 20px;
           right: 20px;
           background-color: #007bff;
-          color: white;
-          border: none;
-          padding: 10px 20px;
-          font-size: 16px;
-          cursor: pointer;
-          z-index: 1000;
         }
-        .save-button:hover { background-color: #0056b3; }
+        .save-button:hover {
+          background-color: #0056b3;
+        }
         .back-button {
-          position: absolute;
-          top: 10px;
-          left: 10px;
+          top: 20px;
+          left: 20px;
           background-color: #007bff;
-          color: white;
-          border: none;
-          padding: 10px 20px;
-          cursor: pointer;
-          border-radius: 5px;
         }
-        .full-screen-note .note-card input, .note-card h3 {
-          font-size: 24px;
-          font-weight: bold;
-          width: 100%;
-          padding: 10px;
-          margin-bottom: 10px;
-          border: none;
-          border-bottom: 2px solid #ccc;
-          box-sizing: border-box;
+        .back-button:hover {
+          background-color: #0056b3;
         }
-        .full-screen-note .note-card textarea { padding: 20px; box-sizing: border-box; }
       `}</style>
 
       <div className="encrypt-section">
