@@ -112,217 +112,243 @@ const NotesPage = () => {
     }
   };
 
-  return (
-    <div className="notes-page" onClick={handleOutsideClick}>
-      <style>{`
-        .notes-page {
-          padding: 20px;
-        }
-        .add-button {
-          margin-bottom: 20px;
-          text-align: center;
-        }
-        .notes-container {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 10px;
-        }
-        .note-card {
-          border: 1px solid #ddd;
-          border-radius: 5px;
-          padding: 10px;
-          width: 150px;
-          height: 200px;
-          cursor: pointer;
-          transition: background-color 0.3s ease;
-          background-color: #fff;
-          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-          box-sizing: border-box;
-        }
-        .note-card:hover {
-          background-color: #f9f9f9;
-        }
-        .note-card h3, .note-card p {
-          margin: 0;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-        }
-        .note-card input, .note-card textarea {
-          border: none;
-          outline: none;
-          background-color: transparent;
-          width: 100%;
-          font-family: inherit;
-          font-size: inherit;
-          color: #333;
-        }
-        .note-card textarea {
-          min-height: 60px;
-        }
-        .context-menu {
-          position: absolute;
-          background-color: #fff;
-          border: 1px solid #ddd;
-          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-          padding: 10px;
-          z-index: 1000;
-        }
-        .context-menu button {
-          display: block;
-          width: 100%;
-          padding: 5px;
-          background-color: transparent;
-          border: none;
-          cursor: pointer;
-          text-align: left;
-        }
-        .context-menu button:hover {
-          background-color: #f0f0f0;
-        }
-        .encrypt-section {
-          margin-top: 20px;
-          text-align: center;
-        }
-        .encrypt-section input {
-          margin-right: 10px;
-          padding: 5px;
-          border: 1px solid #ddd;
-          border-radius: 5px;
-        }
-        .full-screen-note {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100vw;
-          height: 100vh;
-          background-color: rgba(0, 0, 0, 0.8);
-          color: #fff;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          z-index: 1000;
-        }
-        .full-screen-note .note-card {
-          width: 80vw;
-          height: 80vh;
-          background-color: #fff;
-          color: #000;
-          padding: 20px;
-          overflow: auto;
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        .full-screen-note textarea {
-          width: calc(100% - 20px);
-          height: calc(100% - 60px);
-          box-sizing: border-box;
-          resize: none;
-          padding: 10px;
-          font-size: 16px;
-        }
-        .save-button, .back-button {
-          position: absolute;
-          padding: 10px 20px;
-          border: none;
-          border-radius: 5px;
-          color: #fff;
-          cursor: pointer;
-        }
-        .save-button {
-          bottom: 20px;
-          right: 20px;
-          background-color: #007bff;
-        }
-        .save-button:hover {
-          background-color: #0056b3;
-        }
-        .back-button {
-          top: 20px;
-          left: 20px;
-          background-color: #007bff;
-        }
-        .back-button:hover {
-          background-color: #0056b3;
-        }
-      `}</style>
+  const styles = {
+    notesPage: {
+      padding: '20px',
+    },
+    addButton: {
+      marginBottom: '20px',
+      textAlign: 'center',
+    },
+    notesContainer: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      gap: '10px',
+    },
+    noteCard: {
+      border: '1px solid #ddd',
+      borderRadius: '5px',
+      padding: '10px',
+      width: '150px',
+      height: '200px',
+      cursor: 'pointer',
+      transition: 'background-color 0.3s ease',
+      backgroundColor: '#fff',
+      boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
+      boxSizing: 'border-box',
+    },
+    noteCardHover: {
+      backgroundColor: '#f9f9f9',
+    },
+    noteCardTitle: {
+      margin: 0,
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap',
+    },
+    noteCardBody: {
+      margin: 0,
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap',
+    },
+    contextMenu: {
+      position: 'absolute',
+      backgroundColor: '#fff',
+      border: '1px solid #ddd',
+      boxShadow: '0 2px 5px rgba(0, 0, 0, 0.15)',
+      padding: '10px',
+      zIndex: 1000,
+    },
+    contextMenuButton: {
+      display: 'block',
+      width: '100%',
+      padding: '5px',
+      backgroundColor: 'transparent',
+      border: 'none',
+      cursor: 'pointer',
+      textAlign: 'left',
+    },
+    contextMenuButtonHover: {
+      backgroundColor: '#f0f0f0',
+    },
+    encryptSection: {
+      marginTop: '20px',
+      textAlign: 'center',
+    },
+    encryptInput: {
+      marginRight: '10px',
+      padding: '5px',
+      border: '1px solid #ddd',
+      borderRadius: '5px',
+    },
+    fullScreenNote: {
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      width: '100vw',
+      height: '100vh',
+      backgroundColor: 'rgba(0, 0, 0, 0.8)',
+      color: '#fff',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      zIndex: 1000,
+    },
+    fullScreenNoteCard: {
+      width: '80vw',
+      height: '80vh',
+      backgroundColor: '#fff',
+      color: '#000',
+      padding: '20px',
+      overflow: 'auto',
+      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+    },
+    fullScreenTextarea: {
+      width: 'calc(100% - 20px)',
+      height: 'calc(100% - 60px)',
+      boxSizing: 'border-box',
+      resize: 'none',
+      padding: '10px',
+      fontSize: '16px',
+    },
+    saveButton: {
+      position: 'absolute',
+      bottom: '20px',
+      right: '20px',
+      padding: '10px 20px',
+      border: 'none',
+      borderRadius: '5px',
+      color: '#fff',
+      cursor: 'pointer',
+      backgroundColor: '#007bff',
+    },
+    saveButtonHover: {
+      backgroundColor: '#0056b3',
+    },
+    backButton: {
+      position: 'absolute',
+      top: '20px',
+      left: '20px',
+      padding: '10px 20px',
+      border: 'none',
+      borderRadius: '5px',
+      color: '#fff',
+      cursor: 'pointer',
+      backgroundColor: '#007bff',
+    },
+    backButtonHover: {
+      backgroundColor: '#0056b3',
+    },
+  };
 
-      <div className="encrypt-section">
+  return (
+    <div
+      style={styles.notesPage}
+      onClick={handleOutsideClick}
+    >
+      <div style={styles.encryptSection}>
         <input
           type="text"
           placeholder="User Key"
           value={userKey}
           onChange={(e) => setUserKey(e.target.value)}
+          style={styles.encryptInput}
         />
-        <button onClick={handleEncryptNotes}>
+        <button onClick={handleEncryptNotes} style={{ background: 'transparent', border: 'none', cursor: 'pointer' }}>
           <SiLetsencrypt size={30} color="blue" />
         </button>
       </div>
 
-      <div className="add-button">
+      <div style={styles.addButton}>
         <IoMdAdd size={50} className="add-icon" onClick={handleAddNote} />
       </div>
 
-      <div className="notes-container">
+      <div style={styles.notesContainer}>
         {Object.keys(notes).map((title) => (
           <div
             key={title}
-            className="note-card"
+            style={styles.noteCard}
             onClick={() => handleCardClick(title)}
             onContextMenu={(e) => handleRightClick(e, title)}
           >
-            <h3>{title}</h3>
-            <p>{notes[title]}</p>
+            <h3 style={styles.noteCardTitle}>{title}</h3>
+            <p style={styles.noteCardBody}>{notes[title]}</p>
           </div>
         ))}
       </div>
 
       {isNewNote && (
-        <div className="full-screen-note">
-          <div className="note-card">
+        <div style={styles.fullScreenNote}>
+          <div style={styles.fullScreenNoteCard}>
             <input
               type="text"
               value={newTitle}
               onChange={(e) => setNewTitle(e.target.value)}
               placeholder="Title"
+              style={{ width: '100%', padding: '10px', fontSize: '18px' }}
             />
             <textarea
               value={newBody}
               onChange={(e) => setNewBody(e.target.value)}
               placeholder="Body"
+              style={styles.fullScreenTextarea}
             />
+            <button
+              style={styles.saveButton}
+              onClick={handleSaveNewNote}
+            >
+              Save
+            </button>
+            <button
+              style={styles.backButton}
+              onClick={handleCloseFullScreen}
+            >
+              Back
+            </button>
           </div>
-          <button className="save-button" onClick={handleSaveNewNote}>
-            Save
-          </button>
-          <button className="back-button" onClick={handleCloseFullScreen}>
-            Back
-          </button>
         </div>
       )}
 
       {fullScreenNote && (
-        <div className="full-screen-note">
-          <div className="note-card">
+        <div style={styles.fullScreenNote}>
+          <div style={styles.fullScreenNoteCard}>
             <input
               type="text"
               value={fullScreenNote}
               onChange={(e) => handleEditChange(e, 'title', fullScreenNote)}
+              style={{ width: '100%', padding: '10px', fontSize: '18px' }}
             />
             <textarea
               value={notes[fullScreenNote]}
               onChange={(e) => handleEditChange(e, 'body', fullScreenNote)}
+              style={styles.fullScreenTextarea}
             />
+            <button
+              style={styles.backButton}
+              onClick={handleCloseFullScreen}
+            >
+              Back
+            </button>
           </div>
-          <button className="back-button" onClick={handleCloseFullScreen}>
-            Back
-          </button>
         </div>
       )}
 
       {contextMenu.visible && (
-        <div className="context-menu" style={{ top: contextMenu.y, left: contextMenu.x }}>
-          <button onClick={() => handleDeleteNote(contextMenu.title)}>Delete</button>
+        <div
+          style={{
+            ...styles.contextMenu,
+            top: contextMenu.y,
+            left: contextMenu.x,
+          }}
+        >
+          <button
+            onClick={() => handleDeleteNote(contextMenu.title)}
+            style={styles.contextMenuButton}
+          >
+            Delete
+          </button>
         </div>
       )}
     </div>
