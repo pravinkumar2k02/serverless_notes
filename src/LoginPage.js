@@ -25,30 +25,29 @@ function LoginPage() {
     }
 
     try {
-      const response = await axios.post('/api/decrypt', { userKey }, {
+      // Update API URL for serverless functions
+      const response = await axios.post('/.netlify/functions/decrypt', { userKey }, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
-      setMessage(response.data);
+
+      setMessage(response.data.message || ''); // Display the response message
       console.log(response.data);
+
       if (response.data.success) {
         localStorage.setItem('userKey', userKey);
         navigate('/notes');
 
-        // Check if decryption is successful and if the file is decrypted
         if (response.data.isDecrypted) {
-          // Wait for 5 minutes (300000 ms) before encrypting again
+          // Encrypt the file after 10 minutes
           setTimeout(async () => {
             try {
-              // Encrypt the file after 5 minutes
-              await axios.post('/api/encrypt', { userKey });
+              await axios.post('/.netlify/functions/encrypt', { userKey });
               console.log('File encrypted successfully after 10 minutes.');
               navigate('/');
-              // Clear localStorage after encryption
               localStorage.clear();
               console.log('LocalStorage cleared.');
-
             } catch (error) {
               console.error('Error during encryption:', error);
               setMessage('Error during encryption.');

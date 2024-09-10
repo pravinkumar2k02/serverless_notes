@@ -14,15 +14,15 @@ const NotesPage = () => {
   const [userKey, setUserKey] = useState(localStorage.getItem('userKey') || '');
   const [fullScreenNote, setFullScreenNote] = useState(null);
 
-  // useEffect(() => {
-  //   axios.get('/.netlify/functions/decrypt')
-  //     .then(response => {
-  //       setNotes(response.data);
-  //     })
-  //     .catch(error => {
-  //       console.error('Error fetching notes:', error);
-  //     });
-  // }, []);
+  useEffect(() => {
+    axios.get('/.netlify/functions/getNotes')
+      .then(response => {
+        setNotes(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching notes:', error);
+      });
+  }, []);
 
   const handleAddNote = () => {
     setNewTitle('');
