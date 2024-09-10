@@ -11,8 +11,11 @@
 
 [build.environment]
   # React environment
-  NODE_VERSION = "18.3.1"
   CI = "false"
+
+[build]
+  node_version = "18.x"
+
 
 # Redirect all requests to index.html (for React Router to handle)
 [[redirects]]
