@@ -11,10 +11,11 @@
 
 [build.environment]
   # React environment
+  NODE_VERSION = "20.17.0"
   CI = "false"
 
 [build]
-  node_version = "18.x"
+  node_version = "20.x"
 
 
 # Redirect all requests to index.html (for React Router to handle)
