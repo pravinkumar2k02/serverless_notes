@@ -14,15 +14,15 @@ const NotesPage = () => {
   const [userKey, setUserKey] = useState(localStorage.getItem('userKey') || '');
   const [fullScreenNote, setFullScreenNote] = useState(null);
 
-  useEffect(() => {
-    axios.get('http://localhost:5000/notes')
-      .then(response => {
-        setNotes(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching notes:', error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   axios.get('/.netlify/functions/decrypt')
+  //     .then(response => {
+  //       setNotes(response.data);
+  //     })
+  //     .catch(error => {
+  //       console.error('Error fetching notes:', error);
+  //     });
+  // }, []);
 
   const handleAddNote = () => {
     setNewTitle('');
@@ -46,7 +46,7 @@ const NotesPage = () => {
   };
 
   const handleSaveToBackend = debounce((updatedNotes) => {
-    axios.post('http://localhost:5000/save_notes', { notes: updatedNotes })
+    axios.post('/.netlify/functions/save_notes', { notes: updatedNotes })
       .then(response => {
         console.log(response.data);
       })
@@ -79,7 +79,7 @@ const NotesPage = () => {
   };
 
   const handleEncryptNotes = () => {
-    axios.post('http://localhost:5000/encrypt', { userKey })
+    axios.post('/.netlify/functions/encrypt', { userKey })
       .then(response => {
         localStorage.clear();
         window.location.href = '/';
